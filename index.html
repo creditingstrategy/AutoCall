@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8" />
+  <title>Growth Foundation</title>
+  <link rel="icon" href="/studio/static/ui/hsbc_icon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    html, body {
+      width: 100%;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow: auto;
+      background-color: #192231;
+    }
+
+    img, svg, canvas, video, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+    table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .js-plotly-plot, .plot-container {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 400px;
+    }
+
+    .modebar-container {
+      position: absolute !important;
+      top: 10px !important;
+      right: 10px !important;
+    }
+
+    .modebar {
+      background-color: rgba(25, 34, 49, 0.7) !important;
+      padding: 2px 4px !important;
+      border-radius: 4px !important;
+    }
+
+    div, section, article, main, aside, header, footer, nav {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    [style*="height: 100%"], [style*="height:100%"] {
+      height: 100vh !important;
+    }
+
+    .container, .main-container, .app-container {
+      min-height: 100vh;
+    }
+  </style>
+
+  <script>
+    window.addEventListener('resize', function() {
+      if (window.Plotly) {
+        var plots = document.querySelectorAll('.js-plotly-plot');
+        plots.forEach(function(plot) {
+          window.Plotly.Plots.resize(plot);
+        });
+      }
+      document.dispatchEvent(new CustomEvent('widgetResize'));
+    });
+  </script>
+
+  <style>
+    :root{
+      --ink:#11263f;
+      --ink-2:#1d3a5c;
+      --paper:#f7f4ee;
+      --paper-2:#efeae0;
+      --gold:#bb8c3c;
+      --gold-2:#d8b364;
+      --green:#2f7d5b;
+      --rust:#b15a36;
+      --blue:#4d7fb7;
+      --line:#dcd4c5;
+      --muted:#6c7787;
+      --white:#fffdf9;
+      --shadow:0 1px 2px rgba(17,38,63,.04),0 8px 28px rgba(17,38,63,.08);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Instrument Sans',sans-serif;
+      background:var(--paper);
+      color:var(--ink);
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+    }
+    h1,h2,h3,.serif{
+      font-family:'Fraunces',serif;
+      font-weight:600;
+      letter-spacing:-.01em;
+      line-height:1.08;
+    }
+    .hero em,.step em{font-style:italic}
+    .hl-gold{color:var(--gold-2);font-weight:600}
+    .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+    .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+    .muted{color:var(--muted)}
+    section{padding:72px 0;border-bottom:1px solid var(--line);scroll-margin-top:92px}
+    #how,#memory,#experience,#faq{scroll-margin-top:92px}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.in{opacity:1;transform:none}
+
+    .bar{
+      position:sticky;top:0;z-index:50;
+      background:rgba(247,244,238,.86);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .bar .wrap{
+      display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:20px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+      font-size:16px;font-weight:600;color:var(--ink);
+    }
+    .brand .mark{
+      width:26px;height:26px;border-radius:7px;
+      background:linear-gradient(135deg,var(--ink),var(--ink-2));
+      color:var(--gold-2);display:flex;align-items:center;justify-content:center;font-size:14px;
+    }
+    .brand .main{font-family:'Fraunces',serif}
+    .brand .sep{color:var(--gold)}
+    .brand .sub{color:var(--ink-2);font-weight:500}
+    .bar nav{display:flex;gap:24px;flex-wrap:wrap;font-size:14px;font-weight:500}
+    .bar nav a{color:var(--muted);text-decoration:none;transition:color .2s}
+    .bar nav a:hover{color:var(--ink)}
+    @media(max-width:960px){
+      .bar nav{display:none}
+      .bar .wrap{padding-top:10px;padding-bottom:10px}
+    }
+
+    .hero{
+      background:var(--ink);
+      color:#eaf0f8;
+      padding:54px 0 44px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        radial-gradient(900px 380px at 78% -10%,rgba(216,179,100,.16),transparent 60%),
+        linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+      pointer-events:none;
+    }
+    .hero .eyebrow{color:var(--gold-2)}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:26px;
+      align-items:start;
+    }
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+    .hero h1{
+      font-size:clamp(32px,4.8vw,54px);
+      max-width:18ch;
+      color:#fff;
+      margin-top:14px;
+    }
+    .hero .tagline{
+      font-family:'Fraunces',serif;
+      font-style:italic;
+      font-weight:400;
+      font-size:clamp(17px,2.2vw,22px);
+      color:var(--gold-2);
+      margin-top:16px;
+    }
+    .hero .lede{
+      font-size:16.5px;
+      max-width:62ch;
+      margin-top:14px;
+      color:#a9bace;
+    }
+    .hero-explainer{
+      margin-top:18px;
+      max-width:64ch;
+      padding:18px 20px;
+      border:1px solid rgba(216,179,100,.28);
+      border-left:4px solid var(--gold-2);
+      border-radius:16px;
+      background:rgba(255,255,255,.07);
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+    }
+    .hero-explainer .lede{
+      margin:0;
+      max-width:none;
+      color:#d8e3ef;
+      font-style:normal;
+    }
+    .hero-callout{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;
+      padding:20px 20px 18px;
+      margin-top:24px;
+      box-shadow:0 10px 30px rgba(0,0,0,.15);
+    }
+    .hero-callout h3{color:#fff;font-size:22px;margin-bottom:14px}
+    .hero-callout .call-row{padding:12px 0;border-top:1px solid rgba(255,255,255,.08)}
+    .hero-callout .call-row:first-of-type{border-top:none;padding-top:0}
+    .hero-callout .call-label{
+      font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8ea1b9;font-weight:700;margin-bottom:4px;
+    }
+    .hero-callout p{color:#d8e3ef;font-size:14px}
+
+    .engine{
+      margin-top:28px;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;
+      padding:22px 24px 14px;
+      position:relative;
+    }
+    .engine-head{
+      display:grid;
+      grid-template-columns:minmax(260px, 360px) 1fr;
+      gap:18px;
+      align-items:stretch;
+      margin-bottom:16px;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .engine-copy h3{
+      color:#fff;
+      font-size:24px;
+      margin:0 0 10px;
+    }
+    .engine-meta{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      color:#d8e3ef;
+      font-size:14px;
+      line-height:1.45;
+    }
+    .engine-meta-row{
+      color:#d8e3ef;
+    }
+    .engine-meta-row b{
+      color:var(--gold-2);
+      font-weight:600;
+    }
+    .engine-note{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:14px 16px;
+      color:#d8e3ef;
+      font-size:14px;
+      line-height:1.55;
+      display:flex;
+      align-items:center;
+      min-height:100%;
+    }
+    @media(max-width:860px){
+      .engine-head{
+        grid-template-columns:1fr;
+      }
+    }
+
+    .hud{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch;margin-bottom:8px}
+    .hud .box{
+      flex:1;min-width:150px;background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:14px 18px;
+    }
+    .hud .box.live{border-color:rgba(216,179,100,.4)}
+    .hud .lab{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8ea1b9;font-weight:600}
+    .hud .val{font-family:'Fraunces',serif;font-size:34px;font-weight:600;margin-top:4px}
+    .hud .val.gold{color:var(--gold-2)}
+    .hud .val.dim{color:#c9b78b}
+    .hud .val.contract{color:#ffffff}
+    .hud .yearnow{
+      display:flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:130px;
+    }
+    .hud .yearnow .y{font-family:'Fraunces',serif;font-size:18px;color:#fff;text-align:center}
+    .hud .yearnow .y small{
+      display:block;font-family:'Instrument Sans',sans-serif;font-size:11px;color:#8ea1b9;
+      letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px;
+    }
+    .stage{position:relative;margin-top:6px}
+    #engineSvg{width:100%;display:block}
+    .callout{
+      position:absolute;transform:translate(-50%,-120%);
+      background:#fff;color:var(--ink);font-size:12.5px;font-weight:600;
+      padding:7px 12px;border-radius:10px;white-space:nowrap;
+      box-shadow:0 8px 22px rgba(0,0,0,.35);
+      opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;
+    }
+    .callout.show{opacity:1;transform:translate(-50%,-150%)}
+    .callout.bank{background:#f0e7d6;color:var(--rust);border:1px dashed rgba(177,90,54,.5)}
+    .callout.release{background:#11263f;color:var(--gold-2);border:1px solid var(--gold-2)}
+    .controls{
+      display:flex;align-items:center;gap:16px;margin-top:10px;justify-content:space-between;flex-wrap:wrap;
+    }
+    .replay{
+      background:transparent;border:1px solid rgba(255,255,255,.25);color:#cdd8e6;
+      font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:500;
+      padding:8px 16px;border-radius:100px;cursor:pointer;transition:.2s;
+      display:inline-flex;gap:7px;align-items:center;
+    }
+    .replay:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
+    .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#a9bace}
+    .legend span{display:inline-flex;align-items:center;gap:6px}
+    .sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+
+    .sec-head{max-width:70ch;margin-bottom:42px}
+    .sec-head h2{font-size:clamp(28px,3.6vw,40px);margin-top:14px}
+    .sec-head p{margin-top:14px;font-size:17px;color:var(--ink-2)}
+
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media(max-width:860px){.steps{grid-template-columns:1fr}}
+    .step{
+      background:var(--white);border:1px solid var(--line);border-radius:16px;
+      padding:24px;box-shadow:var(--shadow);
+    }
+    .step .num{
+      font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--gold);
+      border:1px solid var(--gold);width:30px;height:30px;border-radius:8px;
+      display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    }
+    .step h3{font-size:18px;margin-bottom:8px}
+    .step p{font-size:14.5px;color:var(--ink-2)}
+
+    .memory{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+    @media(max-width:820px){.memory{grid-template-columns:1fr;gap:28px}}
+    .memory h2{font-size:clamp(24px,3.4vw,34px)}
+    .memory p{margin-top:14px;font-size:16.5px;color:var(--ink-2)}
+    .memory-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .memory-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(187,140,60,.12);
+      border:1px solid rgba(187,140,60,.22);
+      color:var(--gold);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+
+    .card{
+      background:var(--white);border:1px solid var(--line);border-radius:18px;
+      padding:24px;box-shadow:var(--shadow);
+    }
+    .card .label{
+      font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;
+    }
+
+    .experience-stack{display:grid;gap:22px}
+    .exp-inputs{
+      display:grid;grid-template-columns:1.1fr 1fr 1fr 1fr 1fr;gap:14px;align-items:end;margin-top:16px;
+    }
+    .fld{display:flex;flex-direction:column;gap:6px}
+    .fld label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+    .fld input,.fld select{
+      font-family:'Instrument Sans',sans-serif;font-size:15px;color:var(--ink);background:var(--paper);
+      border:1px solid var(--line);border-radius:10px;padding:11px 12px;outline:none;transition:border-color .15s;min-height:45px;
+    }
+    .fld input:focus,.fld select:focus{border-color:var(--gold)}
+    .readonly-field{
+      min-height:45px;display:flex;align-items:center;padding:11px 12px;border:1px solid var(--line);
+      border-radius:10px;background:var(--paper);color:var(--ink);font-size:15px;font-weight:600;
+    }
+    @media(max-width:1000px){.exp-inputs{grid-template-columns:1fr 1fr 1fr}}
+    @media(max-width:700px){.exp-inputs{grid-template-columns:1fr 1fr}}
+    @media(max-width:520px){.exp-inputs{grid-template-columns:1fr}}
+
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media(max-width:760px){.kpis{grid-template-columns:1fr}}
+    .kpi{
+      background:var(--white);border:1px solid var(--line);border-radius:16px;
+      padding:20px;box-shadow:var(--shadow);
+    }
+    .kpi .v{font-family:'Fraunces',serif;font-size:32px;font-weight:600;margin-top:8px}
+    .kpi .v.gold{color:var(--gold)}
+    .kpi .v.green{color:var(--green)}
+    .kpi .v.blue{color:var(--blue)}
+    .kpi .d{font-size:13px;color:var(--muted);margin-top:4px}
+
+    .grid{display:grid;grid-template-columns:1.35fr .95fr;gap:22px}
+    @media(max-width:960px){.grid{grid-template-columns:1fr}}
+
+    #expChart{width:100%;display:block}
+    .chart-note{font-size:13px;color:var(--muted);margin-top:8px}
+
+    .future-grid{
+      display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px;
+    }
+    @media(max-width:1100px){.future-grid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:700px){.future-grid{grid-template-columns:1fr}}
+    .future-box{
+      background:var(--paper);border:1px solid var(--line);border-radius:14px;
+      padding:14px 14px 12px;transition:opacity .2s;
+    }
+    .future-box.disabled{opacity:.48;background:#f1eee8}
+    .future-box .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .future-box .ttl{font-size:13px;font-weight:600;color:var(--ink)}
+    .future-box .val{font-family:'Fraunces',serif;font-size:18px;color:var(--ink-2);min-width:62px;text-align:right}
+
+    input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:6px;background:#d7d0c5;outline:none}
+    input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+      background:var(--gold-2);cursor:pointer;border:4px solid var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.2)
+    }
+    input[type=range]::-moz-range-thumb{
+      width:22px;height:22px;border-radius:50%;background:var(--gold-2);cursor:pointer;border:4px solid var(--ink)
+    }
+    input[type=range]:disabled{opacity:.35;cursor:not-allowed}
+
+    .summary-list{display:grid;gap:12px;margin-top:14px}
+    .summary-row{
+      display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);
+    }
+    .summary-row:last-child{border-bottom:none}
+    .summary-dot{
+      width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      flex:0 0 auto;font-size:13px;font-weight:700;
+    }
+    .summary-dot.ok{background:rgba(47,125,91,.12);color:var(--green)}
+    .summary-dot.wait{background:rgba(187,140,60,.12);color:var(--gold)}
+    .summary-dot.miss{background:rgba(177,90,54,.1);color:var(--rust);border:1px dashed rgba(177,90,54,.35)}
+    .summary-main{flex:1}
+    .summary-main .t{font-weight:600;font-size:14.5px}
+    .summary-main .s{font-size:13px;color:var(--muted);margin-top:2px}
+
+    .mini-metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+    @media(max-width:980px){.mini-metrics{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:760px){.mini-metrics{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.mini-metrics{grid-template-columns:1fr}}
+    .mini{
+      background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;
+    }
+    .mini .m-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+    .mini .m-value{font-family:'Fraunces',serif;font-size:24px;margin-top:4px}
+
+    .faq details{
+      background:var(--white);border:1px solid var(--line);border-radius:14px;
+      padding:4px 22px;margin-bottom:12px;box-shadow:var(--shadow);
+    }
+    .faq summary{
+      font-weight:600;font-size:16px;padding:16px 0;cursor:pointer;list-style:none;
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary:after{
+      content:"+";font-family:'Fraunces',serif;font-size:22px;color:var(--gold);transition:transform .2s;
+    }
+    .faq details[open] summary:after{transform:rotate(45deg)}
+    .faq p{padding:0 0 18px;color:var(--ink-2);font-size:15px}
+
+    footer{padding:48px 0 60px;background:var(--paper-2)}
+    footer .disc{font-size:12.5px;color:var(--muted);max-width:78ch;line-height:1.6}
+    footer .legal{margin-top:18px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px}
+  </style>
+</head>
+
+<body data-htmlid="1780940210476">
+  <div id="ready-marker" data-status="loading" style="display:none">loading</div>
+
+  <div class="bar">
+    <div class="wrap">
+      <div class="brand">
+        <span class="mark">&#9650;</span>
+        <span class="main">Growth Foundation</span>
+        <span class="sep">&bull;</span>
+        <span class="sub">AutoCall Crediting</span>
+      </div>
+      <nav>
+        <a href="#how">How it works</a>
+        <a href="#memory">Memory feature</a>
+        <a href="#experience">My growth experience</a>
+        <a href="#faq">FAQs</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">AutoCall Crediting</span>
+          <h1>Growth when the market cooperates. A second chance when it doesn’t.</h1>
+          <div class="tagline">A down year doesn’t have to mean a lost coupon.</div>
+          <div class="hero-explainer">
+            <p class="lede">Each anniversary asks one question: Is the index at or above the current <span class="hl-gold">strike price</span>? If <em>yes</em>, a <span class="hl-gold">coupon</span> is paid, along with any coupons previously missed, and the strike price resets higher. If <em>no</em>, no coupon is paid that year, but it is not lost &ndash; it goes into memory and can be paid if the index later recovers.</p>
+          </div>
+        </div>
+
+        <div class="hero-callout">
+          <h3>Key definitions</h3>
+          <div class="call-row">
+            <div class="call-label"><span class="hl-gold">Strike price</span></div>
+            <p>The index level that must be met or exceeded on each annual anniversary date for a coupon to be paid. When a coupon is paid, the strike price resets to the index level at the close on that anniversary date.</p>
+          </div>
+          <div class="call-row">
+            <div class="call-label"><span class="hl-gold">Coupon</span></div>
+            <p>The annual interest payment earned when the index has a qualifying anniversary.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="engine">
+        <div class="engine-head">
+          <div class="engine-copy">
+            <h3>Hypothetical Illustration</h3>
+            <div class="engine-meta">
+              <div class="engine-meta-row"><b>Product:</b> FIA</div>
+              <div class="engine-meta-row"><b>Term:</b> 5 Years</div>
+              <div class="engine-meta-row"><b>Annual Coupon:</b> 9%</div>
+              <div class="engine-meta-row"><b>Memory:</b> Yes</div>
+              <div class="engine-meta-row"><b>Contract Starting Value:</b> $100,000</div>
+            </div>
+          </div>
+          <div class="engine-note">
+            This hypothetical illustration shows how coupon payments may work under the autocall crediting method. If the index finishes above the strike price on an anniversary date, a coupon is paid. If the index finishes below the strike price, the coupon is not lost. It is stored in memory and may be paid if the index later recovers.
+          </div>
+        </div>
+
+        <div class="hud">
+          <div class="box live">
+            <div class="lab">Total coupon amount credited</div>
+            <div class="val gold" id="hudCredited">0%</div>
+          </div>
+          <div class="box">
+            <div class="lab">Held in memory</div>
+            <div class="val dim" id="hudMemory">0%</div>
+          </div>
+          <div class="box">
+            <div class="lab">Contract Ending Value</div>
+            <div class="val contract" id="hudContractValue">$100,000</div>
+          </div>
+          <div class="box yearnow">
+            <div class="y"><small>Anniversary</small><span id="hudYear">—</span></div>
+          </div>
+        </div>
+
+        <div class="stage">
+          <svg id="engineSvg" viewBox="0 0 960 360" preserveAspectRatio="xMidYMid meet"></svg>
+          <div class="callout" id="callout"></div>
+        </div>
+
+        <div class="controls">
+          <div class="legend">
+            <span><span class="sw" style="background:#4d7fb7"></span> Index level</span>
+            <span><span class="sw" style="background:#b15a36"></span> Below strike price &mdash; coupon stored in memory</span>
+            <span><span class="sw" style="background:transparent;border:1px dashed #d8b364"></span> Strike price</span>
+          </div>
+          <button class="replay" id="replayBtn">&#9654;&nbsp; Replay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">How it works</span>
+        <h2>One annual check, two outcomes for growth: receive a coupon payment, or put it into storage.</h2>
+        <p>Each anniversary compares the index to the current strike price. If the anniversary qualifies, the annual coupon is paid immediately. If it does not, the coupon is stored in memory and may be earned back in a future year if the index recovers.</p>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Check the anniversary level</h3>
+          <p>On each anniversary, the index is measured against the strike price &ndash; the level established at the start of the contract or reset at the most recent qualifying anniversary.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>If the strike price is met</h3>
+          <p>The annual coupon is paid along with any coupons held in memory, and the strike price resets upward to its new level.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>If the strike price is not met</h3>
+          <p>No coupon is paid for that year and the coupon is stored in memory. The strike price remains unchanged until a future anniversary qualifies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="memory">
+    <div class="wrap">
+      <div class="memory">
+        <div class="reveal">
+          <span class="eyebrow">Memory feature</span>
+          <h2>Missed does not mean gone.</h2>
+          <p>When the index finishes below the strike price on an annual anniversary date, that year’s coupon is not lost. Instead, it is stored in memory and carried forward to a future qualifying anniversary.</p>
+          <p>If, on a later anniversary date, the index closes at or above the current strike price, the current year’s coupon will be paid together with any coupons stored in memory. This is what creates a true second chance after a non-qualifying year.</p>
+        </div>
+        <div class="card reveal">
+          <div class="memory-top">
+            <div class="label">Illustrative memory release</div>
+            <div class="memory-badge">Annual Coupon: 9%</div>
+          </div>
+          <svg viewBox="0 0 360 200" width="100%" style="margin-top:4px" id="memSvg"></svg>
+          <p class="muted" style="font-size:13px;margin-top:6px">In this example, the index declined over the first two years and finished below its strike price in Years 1 and 2, so no coupons were paid and 9% per year was stored in memory. When the index recovered above its strike price in Year 3, a total of 27% was credited &mdash; 9% for the current year plus 18% from memory. The strike price then reset to this new level. Year 4 was negative, so another 9% went into memory. When the index recovered in Year 5 and finished above its new strike price, coupons from both years were credited for a total of 18%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">My growth experience</span>
+        <h2>See the path you have lived &mdash; then toggle the path ahead.</h2>
+        <p>Select the contract start date, choose the next anniversary year, and set a current date anywhere inside the available index history. Historical anniversary points are derived from the attached Intraday VC Index data, and later years remain hypothetical through the sliders below.</p>
+      </div>
+
+      <div class="experience-stack">
+        <div class="card reveal">
+          <div class="label">Contract inputs</div>
+          <div class="exp-inputs">
+            <div class="fld">
+              <label>Index</label>
+              <div class="readonly-field">Intraday VC Index</div>
+            </div>
+            <div class="fld">
+              <label for="exStart">Contract start date</label>
+              <input type="date" id="exStart" value="2021-04-05" />
+            </div>
+            <div class="fld">
+              <label for="nextAnnivYear">Next anniversary year</label>
+              <select id="nextAnnivYear"></select>
+            </div>
+            <div class="fld">
+              <label for="currentDate">Current date</label>
+              <input type="date" id="currentDate" />
+            </div>
+            <div class="fld">
+              <label for="exRate">Annual coupon (%)</label>
+              <input type="number" id="exRate" value="9.00" min="0" max="30" step="0.25" />
+            </div>
+          </div>
+          <div class="exp-inputs" style="margin-top:14px;grid-template-columns:1fr 1fr;max-width:420px">
+            <div class="fld">
+              <label for="exValue">Current account value</label>
+              <input type="text" id="exValue" value="$100,000" inputmode="numeric" />
+            </div>
+          </div>
+        </div>
+
+        <div class="kpis reveal">
+          <div class="kpi">
+            <div class="label">Paid coupons to date</div>
+            <div class="v blue" id="kPaid">0</div>
+            <div class="d" id="kPaidDesc">Total coupon amount credited so far: 0%</div>
+          </div>
+          <div class="kpi">
+            <div class="label">In memory now</div>
+            <div class="v gold" id="kMemory">0</div>
+            <div class="d" id="kMemoryDesc">No coupons currently waiting</div>
+          </div>
+          <div class="kpi">
+            <div class="label">If next anniversary qualifies</div>
+            <div class="v green" id="kNext">$0</div>
+            <div class="d" id="kNextDesc">All-in cumulative value if next anniversary qualifies</div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="card reveal">
+            <div class="label">Five-year experience path</div>
+            <svg id="expChart" viewBox="0 0 980 430" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="chart-note" id="expChartNote">The yellow strike price line resets upward whenever a qualifying anniversary clears the strike price. Historical anniversary points come from the embedded index history. Projected value uses total simple coupon amounts that have been paid and are expected to be paid.</div>
+
+            <div class="future-grid" id="futureGrid">
+              <div class="future-box" id="futureBox1">
+                <div class="top">
+                  <div class="ttl">Future year 1</div>
+                  <div class="val" id="fVal1">+3.0%</div>
+                </div>
+                <input class="future-slider" id="f1" type="range" min="-25" max="25" step="0.5" value="3" />
+              </div>
+              <div class="future-box" id="futureBox2">
+                <div class="top">
+                  <div class="ttl">Future year 2</div>
+                  <div class="val" id="fVal2">-4.0%</div>
+                </div>
+                <input class="future-slider" id="f2" type="range" min="-25" max="25" step="0.5" value="-4" />
+              </div>
+              <div class="future-box" id="futureBox3">
+                <div class="top">
+                  <div class="ttl">Future year 3</div>
+                  <div class="val" id="fVal3">+6.0%</div>
+                </div>
+                <input class="future-slider" id="f3" type="range" min="-25" max="25" step="0.5" value="6" />
+              </div>
+              <div class="future-box" id="futureBox4">
+                <div class="top">
+                  <div class="ttl">Future year 4</div>
+                  <div class="val" id="fVal4">+1.0%</div>
+                </div>
+                <input class="future-slider" id="f4" type="range" min="-25" max="25" step="0.5" value="1" />
+              </div>
+              <div class="future-box" id="futureBox5">
+                <div class="top">
+                  <div class="ttl">Future year 5</div>
+                  <div class="val" id="fVal5">+2.0%</div>
+                </div>
+                <input class="future-slider" id="f5" type="range" min="-25" max="25" step="0.5" value="2" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card reveal">
+            <div class="label">What this means</div>
+            <div class="summary-list" id="summaryList"></div>
+
+            <div class="mini-metrics">
+              <div class="mini">
+                <div class="m-label">Current status</div>
+                <div class="m-value" id="mStatus">At strike price</div>
+              </div>
+              <div class="mini">
+                <div class="m-label">Current strike price</div>
+                <div class="m-value" id="mStrike">0</div>
+              </div>
+              <div class="mini">
+                <div class="m-label">Days until anniversary</div>
+                <div class="m-value" id="mDays">0</div>
+              </div>
+              <div class="mini">
+                <div class="m-label">Projected value</div>
+                <div class="m-value" id="mProjected">$0</div>
+              </div>
+              <div class="mini">
+                <div class="m-label">Hypothetical coupons paid</div>
+                <div class="m-value" id="mHypoCredits">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">FAQs</span>
+        <h2>Common questions</h2>
+      </div>
+      <div class="reveal">
+        <details>
+          <summary>What happens if the index finishes below the strike price this year?</summary>
+          <p>If the index finishes below the strike price on the anniversary date, no coupon is paid for that year. Instead, the coupon is banked in memory and may be paid later if a future anniversary qualifies.</p>
+        </details>
+        <details>
+          <summary>What happens to the strike price after a qualifying anniversary?</summary>
+          <p>When an anniversary qualifies, the strike price resets upward to the index level recorded on that anniversary date.</p>
+        </details>
+        <details>
+          <summary>Will the size of the annual coupon change every year?</summary>
+          <p>No. The annual coupon is locked in for the term of your annuity.</p>
+        </details>
+        <details>
+          <summary>Does the memory feature only work for one missed year?</summary>
+          <p>No. The memory feature is not limited to a single missed year. If the index does not qualify for multiple anniversaries, the missed coupons can continue to accumulate in memory and may be paid when the index later recovers, and a future anniversary qualifies.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="disc"><b>This is an illustrative, hypothetical example for educational purposes only.</b> It does not represent the performance of any specific index, contract, or time period, and is not a projection or guarantee of future results. Index and account paths shown here are illustrative. Interest crediting, the memory feature, the 0% floor, and all guarantees are subject to the terms of the annuity contract and the claims-paying ability of the issuing insurance company.</p>
+      <p class="legal">Growth Foundation education prototype. &copy; 2026.</p>
+    </div>
+  </footer>
+
+  <script>
+    const SNAPSHOT_MODE = !!(window.__SNAPSHOT_MODE || navigator.webdriver || /Headless/i.test(navigator.userAgent));
+    const MODULES = { hero:false, memory:false, experience:false };
+    const READY = document.getElementById('ready-marker');
+    const TERM_YEARS = 5;
+    const COUPON_RATE_DEFAULT = 9;
+    const DATA_BASE_DATE = '2020-01-02';
+    const DATA_ENCODED = `0:231037;1:229370;3:230001;1:229266;1:231010;1:232780;1:231936;3:234053;1:233431;1:234222;1:236965;1:238312;4:237412;1:237869;1:237685;1:234968;3:231584;1:232998;1:232765;1:233014;1:230387;3:231532;1:233554;1:234664;1:235178;1:234404;3:235498;1:236096;1:237367;1:237029;1:237321;4:236529;1:238024;1:236511;1:234109;3:227986;1:226016;1:225256;1:222701;1:221437;3:221422;1:221416;1:221411;1:221406;1:221401;3:221385;1:221380;1:221375;1:221369;1:221364;3:221348;1:221343;1:221338;1:221333;1:221327;3:221312;1:221307;1:221301;1:221296;1:221289;3:222617;1:221895;1:220568;1:221355;1:220792;3:224820;1:225159;1:226868;1:227739;4:227086;1:228778;1:226320;1:226661;1:228124;3:227070;1:225409;1:226537;1:226669;1:227589;3:228952;1:228286;1:230795;1:229299;1:227108;3:227733;1:228473;1:227773;1:228632;1:230279;3:230461;1:228275;1:225947;1:227280;1:227745;3:231286;1:230212;1:231365;1:230728;1:230879;4:231923;1:233389;1:233210;1:233856;3:234256;1:235070;1:237228;1:236337;1:240079;3:241769;1:240974;1:240578;1:235809;1:235535;3:235733;1:236388;1:236393;1:236300;1:236094;3:236352;1:236786;1:234732;1:235723;1:233771;3:234704;1:236801;1:237294;1:237632;4:239348;1:238161;1:238934;1:238318;1:239650;3:238394;1:239933;1:241018;1:240560;1:241103;3:242485;1:242347;1:243582;1:241055;1:240156;3:241523;1:240297;1:242569;1:241474;1:242328;3:243920;1:244253;1:245509;1:246835;1:247030;3:247601;1:245693;1:248777;1:248335;1:248105;3:249083;1:249471;1:248281;1:249268;1:250353;3:253039;1:254395;1:257649;1:258360;1:259928;3:260148;1:261225;1:267083;1:256877;1:255872;4:253679;1:254958;1:253525;1:253429;3:254685;1:254948;1:254647;1:253504;1:252483;3:250091;1:250938;1:248595;1:248922;1:250575;3:252256;1:251927;1:252897;1:253146;1:252317;3:254100;1:252420;1:254329;1:255151;1:256105;3:258107;1:257218;1:256323;1:255811;1:255982;3:253383;1:254304;1:254020;1:254594;1:254980;3:251729;1:251573;1:247353;1:248354;1:246316;3:246276;1:247985;1:249594;1:252008;1:251925;3:252504;1:251793;1:252308;1:251421;1:252723;3:253503;1:253229;1:252159;1:252407;1:251736;3:252275;1:254300;1:254096;2:254416;3:253687;1:255756;1:255963;1:255644;1:257340;3:256892;1:257692;1:256035;1:255930;1:255173;3:255124;1:256967;1:257685;1:258569;1:257970;3:255707;1:255596;1:256066;1:256328;4:258126;1:257704;1:258096;1:259393;4:255612;1:256859;1:257908;1:260743;1:261473;3:260371;1:260532;1:260948;1:260016;1:258360;4:259942;1:262791;1:262888;1:262323;3:262451;1:262298;1:257826;1:258716;1:256619;3:257939;1:259532;1:259587;1:260686;1:261424;3:262433;1:262486;1:262280;1:262596;1:263704;4:263591;1:263651;1:262475;1:261968;3:260295;1:259744;1:261229;1:257909;1:257811;3:259954;1:258784;1:256345;1:253443;1:255884;3:255362;1:256848;1:257591;1:258806;1:258978;3:259853;1:259934;1:260229;1:257784;1:257867;3:258877;1:257107;1:256335;1:256937;1:259264;3:259834;1:258884;1:260445;1:262449;4:266281;1:265719;1:266185;1:267494;1:269996;3:270233;1:271309;1:269592;1:273990;1:275283;3:272793;1:270557;1:273708;1:270368;1:273240;3:273486;1:273801;1:273291;1:275241;1:273130;3:273967;1:271462;1:271781;1:273336;1:275350;3:273244;1:270780;1:267762;1:269739;1:271581;3:271019;1:269848;1:268261;1:269907;1:269790;3:271561;1:270893;1:271236;1:271741;1:272076;4:271622;1:271868;1:270926;1:273474;3:273158;1:273284;1:272658;1:274072;1:274470;3:275081;1:274701;1:272631;1:272628;1:269105;3:271612;1:273094;1:272720;1:274466;1:275608;3:276280;1:276426;1:277184;1:278881;1:282430;4:281397;1:282936;1:278707;1:281225;3:281830;1:280996;1:281388;1:280438;1:278543;3:273808;1:276060;1:276935;1:277373;1:279311;3:279678;1:278589;1:278917;1:279743;1:278239;3:277795;1:279753;1:278930;1:280235;1:280844;3:280650;1:280850;1:282037;1:283424;1:283837;3:285045;1:281925;1:278703;1:278504;1:280845;3:283227;1:283446;1:284403;1:282211;1:285321;3:287047;1:286506;1:286491;1:287469;1:287744;4:286148;1:285281;1:283836;1:280589;3:281104;1:279526;1:282336;1:281700;1:278596;3:272593;1:272889;1:273934;1:275662;1:275996;3:275364;1:271718;1:271955;1:270408;1:271845;3:269531;1:271408;1:271665;1:272986;1:272741;3:271618;1:270886;1:271709;1:275211;1:276744;3:277492;1:279049;1:279957;1:280830;1:280783;3:282073;1:283177;1:281465;1:284175;1:285181;3:285490;1:286970;1:289911;1:291290;1:293429;3:293754;1:292258;1:289505;1:289440;1:292405;3:292046;1:294262;1:293311;1:294411;1:293606;3:294149;1:293871;1:294323;2:289212;3:290829;1:288369;1:287519;1:288567;1:287402;3:289123;1:291370;1:292138;1:291257;1:292456;3:291092;1:289511;1:292514;1:291423;1:289515;3:287793;1:289826;1:291368;1:292851;4:294966;1:294799;1:295434;1:294423;1:293783;3:295091;1:295621;1:289896;1:288964;1:288205;3:285576;1:287076;1:287879;1:285084;1:285343;4:281880;1:280696;1:278998;1:276737;3:273473;1:273467;1:273460;1:273454;1:273445;3:274744;1:275442;1:276302;1:274185;1:274179;3:273405;1:274552;1:276296;1:273787;1:271472;3:270703;1:272715;1:273142;1:270082;1:269090;4:267290;1:265085;1:266252;1:268693;3:267879;1:266090;1:268718;1:267482;1:266404;3:263660;1:263278;1:265642;1:264358;1:262955;3:261825;1:264722;1:267039;1:268480;1:270112;3:269915;1:271729;1:269996;1:271990;1:272744;3:273915;1:276307;1:274912;1:272956;1:272692;3:274372;1:271713;1:269810;1:270655;1:269842;3:266722;1:266544;1:268312;1:266237;4:265632;1:269002;1:268946;1:266842;1:263405;3:263040;1:261481;1:261825;1:263808;1:259389;3:259377;1:259371;1:259364;1:259358;1:259352;3:259334;1:259328;1:259319;1:259194;1:260958;3:260649;1:262254;1:260050;1:260041;1:259587;3:261186;1:259813;1:260648;1:262896;1:266133;4:265856;1:265029;1:266686;1:264879;3:265148;1:266276;1:264822;1:261746;1:257816;3:256622;1:256616;1:256610;1:256604;1:256598;4:256571;1:256573;1:257239;1:260272;3:260079;1:258335;1:258173;1:256840;1:257969;4:257665;1:258146;1:259830;1:259797;3:258145;1:257126;1:256601;1:255665;1:257512;3:256653;1:260689;1:262138;1:263219;1:261877;3:262128;1:260450;1:264660;1:265958;1:268130;3:267575;1:266664;1:269118;1:268622;1:268404;3:268354;1:267564;1:271172;1:271440;1:273883;3:274685;1:275103;1:273717;1:274097;1:271698;3:267899;1:267430;1:267994;1:270099;1:265720;3:265379;1:263202;1:262734;1:262213;1:260846;4:260448;1:262892;1:263444;1:265779;3:267065;1:262856;1:262850;1:262844;1:262835;3:263607;1:262360;1:260876;1:260109;1:257890;3:257114;1:256603;1:258923;1:256202;1:254913;3:257114;1:262315;1:261071;1:260472;1:258570;3:258192;1:257346;1:257181;1:259197;1:257016;3:258048;1:259340;1:258869;1:258395;1:260552;3:261624;1:263192;1:262480;1:261765;1:265005;3:263547;1:263075;1:259934;1:258772;1:259525;3:260590;1:261261;1:259096;1:264864;1:265233;3:264776;1:265143;1:264662;1:264078;1:264629;3:264303;1:265747;1:266414;2:266365;3:264158;1:263910;1:268507;1:268859;1:268449;3:266242;1:264458;1:264142;1:265028;1:264132;3:266126;1:267934;1:267297;1:265019;1:264675;3:263638;1:263862;1:265241;1:262713;1:263399;4:263000;1:261482;1:263700;1:263180;4:262765;1:263368;1:262110;1:265190;3:266213;1:267007;1:268837;1:269381;1:270079;4:269627;1:267100;1:265922;1:268876;3:270950;1:270744;1:269952;1:271630;1:272282;3:269993;1:272214;1:274515;1:276507;1:275071;3:274127;1:275946;1:274445;1:273320;1:273507;3:275053;1:275247;1:275292;1:273352;1:272691;4:269964;1:269376;1:270446;1:268364;3:268947;1:268752;1:267810;1:268971;1:271612;3:271830;1:268859;1:269112;1:265716;1:262688;3:262696;1:264305;1:263062;1:265511;1:264085;3:265311;1:267168;1:265212;1:265204;1:265461;3:265966;1:265586;1:267873;1:268743;1:271025;3:271993;1:270669;1:270235;1:270929;4:270926;1:271081;1:269896;1:273178;1:272664;3:273420;1:273768;1:273466;1:271505;1:271952;3:272148;1:267682;1:266321;1:271311;1:273095;3:273291;1:269758;1:267989;1:266271;1:269566;3:269625;1:268798;1:269640;1:269114;1:268764;3:269437;1:267988;1:271170;1:273699;1:273352;3:273183;1:270128;1:267657;1:269632;1:272540;4:272373;1:271198;1:273153;1:277083;3:276588;1:277061;1:275988;1:277631;1:278059;3:280699;1:282851;1:282511;1:286085;1:285075;4:283783;1:282328;1:282775;1:281020;3:279792;1:282699;1:282197;1:283533;1:287297;3:287230;2:286865;1:284019;1:283371;3:283543;1:285536;1:287593;1:289518;1:288986;3:290179;1:292381;1:293035;1:290584;1:290736;3:291741;1:293057;1:292273;1:291659;1:293995;3:293899;1:293715;1:289529;1:288670;1:286976;3:289004;1:287742;1:286108;1:286551;1:286323;3:287226;1:284953;1:283293;1:281396;1:281132;3:282800;1:281870;1:284589;1:281463;1:282644;3:283997;1:287108;1:288001;1:287901;1:287913;4:286803;1:284462;1:283527;1:283593;3:285571;1:283935;1:284160;1:286820;1:282796;3:282826;1:282329;1:279476;1:274665;1:273889;3:274415;1:271627;1:271584;1:272691;1:272517;3:271969;1:269606;1:271116;1:270834;1:272778;3:273623;1:274623;1:275348;1:274078;1:272994;3:275112;1:274735;1:272470;1:270991;1:268510;3:268067;1:269534;1:266678;1:264505;1:263269;3:265558;1:265599;1:266717;1:269966;1:271468;3:271446;1:271622;1:271898;1:269777;1:273429;3:273119;1:277506;1:277890;1:278033;1:278295;3:280071;1:279518;1:280476;2:280389;3:280036;1:280110;1:279917;1:280892;1:282756;3:281032;1:280592;1:279352;1:281784;1:283277;3:284299;1:285790;1:290766;1:292177;1:292474;3:293783;1:295253;1:290741;1:293047;1:293608;4:294687;1:294687;1:295042;1:293873;4:291290;1:289117;1:288005;1:288340;3:292411;1:291761;1:293143;1:292969;1:293184;4:291962;1:290677;1:292893;1:296137;3:296982;1:297739;1:297997;1:299249;1:299157;3:301607;1:301682;1:296246;1:298915;1:302423;3:301222;1:301344;1:303920;1:303997;1:305915;3:305701;1:300027;1:301949;1:303098;1:301964;4:300346;1:300756;1:305740;1:306073;3:305237;1:305484;1:304914;1:306451;1:308319;3:307917;1:304645;1:306171;1:308649;1:307351;3:306714;1:309695;1:309102;1:308027;1:306362;3:308411;1:309819;1:312055;1:313416;1:313088;3:311746;1:310975;1:313464;1:314130;4:312783;1:309752;1:310058;1:306881;1:309076;3:308838;1:308614;1:306814;1:308410;1:304800;3:302929;1:302683;1:301362;1:300621;1:298341;3:300331;1:302904;1:303117;1:301033;1:302433;3:302638;1:300388;1:299775;1:300667;1:302849;3:304267;1:304789;1:304763;1:305790;1:306320;3:306077;1:307732;1:311335;1:311012;1:310804;3:311097;1:312299;1:310109;1:307226;1:309658;4:309562;1:306996;1:304332;1:306501;3:306889;1:307791;1:311084;1:311097;1:310753;3:311342;1:311978;1:315906;1:316356;1:315863;3:318795;1:319433;2:318669;1:317909;3:316979;1:317759;1:318458;1:318395;1:317724;3:318198;1:320610;1:322993;2:325832;3:325867;1:326458;1:331203;1:327392;1:329659;3:330747;1:333462;1:328747;1:326172;1:323941;3:326925;1:326385;1:320748;1:320177;1:321459;3:321926;1:321102;1:324171;1:321511;1:318091;3:316926;1:316801;1:316873;1:317878;1:317870;3:317845;1:319225;1:319950;1:322677;1:323159;3:324950;1:324858;1:325719;1:323222;1:326244;3:325380;1:325872;1:324457;1:323928;1:326633;4:320529;1:320504;1:319118;1:314927;3:317256;1:318298;1:319523;1:321190;1:322490;3:322841;1:322679;1:322055;1:326455;1:326055;3:326527;1:327084;1:326501;1:327954;1:327524;3:328477;1:325363;1:325424;1:324491;1:327078;3:324368;1:327311;1:329538;1:328711;1:330704;3:333658;1:330421;1:332124;1:332081;1:333370;3:332077;1:332676;1:328119;1:329090;1:329070;3:330136;1:330703;1:329351;1:322606;1:322663;3:321908;1:324839;1:331737;1:333469;1:334103;3:334201;1:333622;1:333648;1:331844;1:328193;3:329041;1:329948;1:329737;1:331282;1:331983;3:332828;1:334560;1:333216;2:335427;3:335856;1:336011;1:338396;1:337711;1:338410;3:335432;1:333706;1:337749;1:335575;1:335230;3:336862;1:335313;1:324529;1:323650;1:325197;3:326466;1:328132;2:328361;1:325409;3:323403;1:322414;2:321901;1:323748;3:324743;1:322911;1:323088;2:320251;3:320393;1:320479;1:323747;1:323467;1:324913;4:326301;1:327461;1:328255;1:327691;3:323603;1:325436;1:324478;1:325356;1:324438;3:322873;1:323720;1:324257;1:324945;1:323185;3:324395;1:324482;1:323686;1:326221;1:326290;4:326369;1:327527;1:326183;1:320892;3:319633;1:317731;1:317790;1:314477;1:316589;3:313336;1:311327;1:312696;1:310625;1:310436;3:310414;1:310407;1:310400;1:310392;1:310385;3:310360;1:309904;1:311541;1:311127;1:310919;3:313999;1:314128;1:312334;1:311850;1:308250;3:309920;1:310392;1:311690;1:304988;1:304981;3:304959;1:304952;1:304945;1:304938;1:304931;3:304909;1:304902;1:304892;1:304797;4:302983;1:304218;1:306465;1:308044;1:308501;3:308707;1:309236;1:309005;1:309773;1:311084;3:310301;1:309407;1:309620;1:310728;1:310438;3:315869;1:317984;1:318008;1:318563;1:319782;3:319940;1:319116;1:315903;1:315859;1:313887;4:317622;1:316651;1:317325;1:317417;3:318070;1:319544;1:319580;1:318055;1:320720;3:320876;1:321860;1:321094;1:321984;1:318307;3:321381;1:319406;1:319169;2:318113;3:320964;1:324353;1:324083;1:327053;1:328288;3:330732;1:330256;1:331686;1:335413;4:332044;1:331970;1:334063;1:335125;1:333711;3:334140;1:332885;1:333672;1:336457;1:335900;3:336721;1:337139;1:340494;1:341556;1:343098;3:342632;1:341309;1:340093;1:339893;1:335748;3:337759;1:337042;1:338365;1:337859;1:339853;3:339022;1:342262;1:343276;1:343532;1:342315;3:342360;1:339403;1:338311;1:336930;1:341505;3:340657;1:341504;1:342546;1:343663;1:340330;4:336793;1:338359;1:341631;1:340055;3:340968;1:342015;1:343207;1:346598;1:346490;3:348066;1:348011;1:347003;1:349668;1:351406;3:353148;1:350261;1:348592;1:345995;1:347330;3:348034;1:349479;1:350783;1:350868;1:350881;3:352499;1:350271;1:353197;1:351430;1:339191;3:343528;1:342999;1:343605;1:342722;1:343634;3:345481;1:345574;1:344204;1:345388;1:347242;3:349897;1:350550;1:350271;1:347612;1:348695;3:348456;1:345031;1:346356;1:342838;1:342229;3:345658;1:346132;1:346266;1:341657;1:341469;3:339100;1:337623;1:338136;1:336731;1:337920;3:339929;1:341506;1:342676;2:343290;3:342340;1:342906;1:343586;1:343518;1:343932;3:342759;1:342734;1:345302;1:345453;1:341892;3:341663;1:340848;1:337116;1:339766;1:341450;3:343097;1:344383;1:345419;2:345196;3:343860;1:343482;1:340318;2:340000;3:342410;1:344706;1:343276;1:343238;1:345971;3:346548;1:345046;1:342294;1:343422;1:343503;4:335814;1:338169;1:338978;1:338985;3:340229;1:341186;1:341187;1:339843;1:339021;3:340250;1:337806;1:336625;1:332759;1:336742;3:337399;1:336594;1:336579;1:332865;1:332630;4:333074;1:334473;1:333470;1:335099;3:332555;1:334768;1:336865;1:335050;1:333745;3:334056;1:330856;1:331949;1:330945;1:328756;3:329668;1:329304;1:329176;1:326666;1:325521;3:327356;1:327826;1:325282;1:324699;1:321413;3:324206;1:323353;1:324095;1:321292;1:318206;3:317546;1:322703;1:325066;1:325010;4:325261;1:325486;1:330792;1:331742;1:331406;3:333165;1:335454;1:337306;1:337887;1:340901;3:340188;1:338441;1:341236;1:339888;1:342119;3:342686;1:341037;1:340583;1:344954`;
+
+    function markReadyModule(name){
+      MODULES[name] = true;
+      if(Object.values(MODULES).every(Boolean)){
+        READY.dataset.status = 'ready';
+        READY.textContent = 'ready';
+        window.__BOARD_READY = true;
+      }
+    }
+
+    const money = n => '$' + Math.round(n).toLocaleString('en-US');
+    const fmtPct = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1) + '%';
+
+    function longDate(d){
+      return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    }
+
+    function parseCurrencyInputValue(value){
+      if(value == null) return 0;
+      const cleaned = String(value).replace(/[^0-9.-]/g, '');
+      const parsed = parseFloat(cleaned);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function formatCurrencyInputField(){
+      const field = document.getElementById('exValue');
+      const num = parseCurrencyInputValue(field.value);
+      field.value = money(num || 0);
+    }
+
+    function unformatCurrencyInputField(){
+      const field = document.getElementById('exValue');
+      const num = parseCurrencyInputValue(field.value);
+      field.value = num ? String(Math.round(num)) : '';
+    }
+
+    function addYearsSafe(date, years){
+      const d = new Date(date.getTime());
+      const month = d.getMonth();
+      d.setFullYear(d.getFullYear() + years);
+      if (d.getMonth() !== month) d.setDate(0);
+      return d;
+    }
+
+    function decodeTimeSeries(baseDateStr, encoded){
+      const baseDate = new Date(baseDateStr + 'T00:00:00');
+      const out = [];
+      const parts = encoded.split(';');
+      let current = new Date(baseDate.getTime());
+
+      for(let i=0;i<parts.length;i++){
+        const [offStr, valStr] = parts[i].split(':');
+        const off = parseInt(offStr, 10);
+        const val = parseInt(valStr, 10) / 1000;
+        if(i === 0){
+          current = new Date(baseDate.getTime());
+        }else{
+          current.setDate(current.getDate() + off);
+        }
+        out.push({
+          date: current.toISOString().slice(0,10),
+          t: current.getTime(),
+          level: val
+        });
+      }
+      return out;
+    }
+
+    const FULL_TS = decodeTimeSeries(DATA_BASE_DATE, DATA_ENCODED);
+    const DATA_START_ROW = FULL_TS[0];
+    const DATA_END_ROW = FULL_TS[FULL_TS.length - 1];
+
+    function firstOnOrAfter(targetDate){
+      const t = targetDate.getTime();
+      for(const row of FULL_TS){
+        if(row.t >= t) return row;
+      }
+      return null;
+    }
+
+    function lastOnOrBefore(targetDate){
+      const t = targetDate.getTime();
+      for(let i=FULL_TS.length-1;i>=0;i--){
+        if(FULL_TS[i].t <= t) return FULL_TS[i];
+      }
+      return null;
+    }
+
+    function getProfile(startDateStr){
+      const selectedStart = new Date(startDateStr + 'T00:00:00');
+      const startRow = firstOnOrAfter(selectedStart);
+      if(!startRow) return null;
+
+      const anniversaries = [];
+      for(let y=1;y<=TERM_YEARS;y++){
+        const target = addYearsSafe(selectedStart, y);
+        const used = firstOnOrAfter(target);
+        anniversaries.push({
+          year: y,
+          targetDate: target,
+          target: target.toISOString().slice(0,10),
+          used: used ? used.date : null,
+          level: used ? used.level : null
+        });
+      }
+
+      return {
+        selectedStart,
+        actualStart: startRow,
+        startLevel: startRow.level,
+        anniversaries
+      };
+    }
+
+    function deriveCompletedAnniversaries(profile, currentDate){
+      let completed = 0;
+      for(const ann of profile.anniversaries){
+        if(ann.used && new Date(ann.used + 'T00:00:00') <= currentDate){
+          completed = ann.year;
+        }
+      }
+      return completed;
+    }
+
+    (function heroEngine(){
+      const svg = document.getElementById('engineSvg');
+      const callout = document.getElementById('callout');
+      const hudC = document.getElementById('hudCredited');
+      const hudM = document.getElementById('hudMemory');
+      const hudY = document.getElementById('hudYear');
+      const hudContractValue = document.getElementById('hudContractValue');
+      const NS = 'http://www.w3.org/2000/svg';
+      const x0 = 120, xN = 900, baseY = 212, scaleL = 4.4, TRIG = 9, L0 = 100;
+      const START_VALUE = 100000;
+      const lv = [92,96,109,104,118];
+      const n = lv.length, step = (xN - x0) / n;
+      const annX = i => x0 + (i + 1) * step;
+      const yL = L => baseY - (L - 100) * scaleL;
+      const ev = [];
+      let firstFrameDone = false;
+
+      (function(){
+        let st = L0, bnk = 0, runningPaidPct = 0, contractValue = START_VALUE;
+        for(let i=0;i<n;i++){
+          const met = lv[i] >= st;
+          let credit = 0, release = 0, paid = 0;
+          if(met){
+            release = bnk * TRIG;
+            credit = TRIG;
+            paid = credit + release;
+            runningPaidPct += paid;
+            contractValue = START_VALUE * (1 + runningPaidPct / 100);
+            bnk = 0;
+            st = lv[i];
+          }else{
+            bnk++;
+          }
+          ev.push({
+            i,
+            L: lv[i],
+            met,
+            credit,
+            release,
+            paid,
+            strikeAfter: st,
+            banked: bnk,
+            contractValue
+          });
+        }
+      })();
+
+      function indexPath(){
+        let pts = [[x0, L0]], prev = L0;
+        for(let i=0;i<n;i++){
+          const mx = x0 + step * (i + 0.5);
+          const mid = (prev + lv[i]) / 2 + (i % 2 ? -3 : 3);
+          pts.push([mx, mid]);
+          pts.push([annX(i), lv[i]]);
+          prev = lv[i];
+        }
+        return 'M ' + pts.map(p => p[0] + ' ' + yL(p[1])).join(' L ');
+      }
+
+      const dIdx = indexPath();
+
+      function scaffold(){
+        let s = '';
+        s += `<line x1="${x0}" y1="${yL(L0)}" x2="${xN}" y2="${yL(L0)}" stroke="rgba(255,255,255,.08)" stroke-width="1" stroke-dasharray="2 5"/>`;
+        s += `<text x="${x0}" y="${yL(L0)+18}" fill="#7d93b0" font-size="11" font-family="Instrument Sans">Starting level</text>`;
+        s += `<text x="${x0}" y="${yL(L0)-9}" fill="#d8b364" font-size="12" font-family="Instrument Sans">Strike price</text>`;
+        for(let i=0;i<n;i++){
+          const x = annX(i);
+          s += `<line x1="${x}" y1="70" x2="${x}" y2="300" stroke="rgba(255,255,255,.07)" stroke-width="1"/>`;
+          s += `<text x="${x}" y="324" fill="#7d93b0" font-size="12" text-anchor="middle" font-family="Instrument Sans">Yr ${i+1}</text>`;
+        }
+        return s;
+      }
+
+      let pathEl, playhead, markersG, strikeEl, strikeSegs, fired, startT, rafId, creditedPct, memoryPct, contractValue;
+      const DUR = SNAPSHOT_MODE ? 1200 : 8600;
+
+      function strikeD(maxX){
+        let pts = [[strikeSegs[0].x, strikeSegs[0].level]];
+        for(let k=0;k<strikeSegs.length;k++){
+          const seg = strikeSegs[k];
+          if(seg.x > maxX) break;
+          if(k > 0){
+            pts.push([seg.x, strikeSegs[k-1].level]);
+            pts.push([seg.x, seg.level]);
+          }
+          const nx = (k + 1 < strikeSegs.length && strikeSegs[k+1].x <= maxX) ? strikeSegs[k+1].x : maxX;
+          pts.push([nx, seg.level]);
+          if(nx >= maxX) break;
+        }
+        return 'M ' + pts.map(p => p[0] + ' ' + yL(p[1])).join(' L ');
+      }
+
+      function reset(){
+        cancelAnimationFrame(rafId);
+        svg.innerHTML = scaffold();
+        strikeSegs = [{ x:x0, level:L0 }];
+
+        strikeEl = document.createElementNS(NS,'path');
+        strikeEl.setAttribute('fill','none');
+        strikeEl.setAttribute('stroke','#d8b364');
+        strikeEl.setAttribute('stroke-width','2');
+        strikeEl.setAttribute('stroke-dasharray','7 5');
+        strikeEl.setAttribute('opacity','.9');
+        strikeEl.setAttribute('d','M ' + x0 + ' ' + yL(L0));
+        svg.appendChild(strikeEl);
+
+        pathEl = document.createElementNS(NS,'path');
+        pathEl.setAttribute('d', dIdx);
+        pathEl.setAttribute('fill','none');
+        pathEl.setAttribute('stroke','#4d7fb7');
+        pathEl.setAttribute('stroke-width','3');
+        pathEl.setAttribute('stroke-linecap','round');
+        pathEl.setAttribute('stroke-linejoin','round');
+        svg.appendChild(pathEl);
+
+        markersG = document.createElementNS(NS,'g');
+        svg.appendChild(markersG);
+
+        playhead = document.createElementNS(NS,'circle');
+        playhead.setAttribute('r','7');
+        playhead.setAttribute('fill','#fff');
+        playhead.setAttribute('stroke','#4d7fb7');
+        playhead.setAttribute('stroke-width','3');
+        svg.appendChild(playhead);
+
+        const len = pathEl.getTotalLength();
+        pathEl.style.strokeDasharray = len;
+        pathEl.style.strokeDashoffset = len;
+        void pathEl.getBoundingClientRect();
+        pathEl.style.transition = 'stroke-dashoffset ' + DUR + 'ms linear';
+        pathEl.style.strokeDashoffset = 0;
+
+        fired = new Array(n).fill(false);
+        creditedPct = 0;
+        memoryPct = 0;
+        contractValue = START_VALUE;
+        startT = 0;
+
+        hudC.textContent = '0%';
+        hudM.textContent = '0%';
+        hudY.textContent = '—';
+        hudContractValue.textContent = money(contractValue);
+        callout.className = 'callout';
+        callout.innerHTML = '';
+        pathEl._len = len;
+        playhead.style.opacity = '1';
+
+        if(!firstFrameDone){
+          firstFrameDone = true;
+          markReadyModule('hero');
+        }
+      }
+
+      function setHUD(){
+        hudC.textContent = '+' + creditedPct.toFixed(0) + '%';
+        hudM.textContent = memoryPct.toFixed(0) + '%';
+        hudContractValue.textContent = money(contractValue);
+      }
+
+      function placeCallout(x,y,cls,txt){
+        const rect = svg.getBoundingClientRect();
+        const sx = rect.width / 960, sy = rect.height / 360;
+        callout.style.left = (x * sx) + 'px';
+        callout.style.top = (y * sy) + 'px';
+        callout.className = 'callout ' + cls;
+        callout.innerHTML = txt;
+        requestAnimationFrame(() => callout.classList.add('show'));
+      }
+
+      function fire(i){
+        fired[i] = true;
+        const e = ev[i], x = annX(i), y = yL(e.L);
+        hudY.textContent = 'Year ' + (i + 1);
+
+        const dot = document.createElementNS(NS,'circle');
+        dot.setAttribute('cx',x);
+        dot.setAttribute('cy',y);
+        dot.setAttribute('r','8');
+        dot.setAttribute('stroke','#11263f');
+        dot.setAttribute('stroke-width','2');
+
+        if(e.met){
+          dot.setAttribute('fill','#d8b364');
+          strikeSegs.push({x:x, level:e.strikeAfter});
+          const paid = e.credit + e.release;
+          creditedPct += paid;
+          memoryPct = 0;
+          contractValue = e.contractValue;
+          let txt = '&#10003; +' + paid + '% PAID';
+          if(e.release > 0) txt += ' &middot; memory released';
+          txt += ' &middot; strike price resets &#8593;';
+          placeCallout(x,y,'release',txt);
+        }else{
+          dot.setAttribute('fill','#b15a36');
+          memoryPct = e.banked * TRIG;
+          contractValue = i > 0 ? ev[i-1].contractValue : START_VALUE;
+          placeCallout(x,y,'bank','0% &middot; coupon stored in memory');
+        }
+
+        markersG.appendChild(dot);
+        setHUD();
+      }
+
+      function loop(t){
+        if(!startT) startT = t;
+        const el = t - startT;
+        const prog = Math.min(el / DUR, 1);
+        const p = pathEl.getPointAtLength(prog * pathEl._len);
+        playhead.setAttribute('cx',p.x);
+        playhead.setAttribute('cy',p.y);
+
+        for(let i=0;i<n;i++){
+          if(!fired[i] && p.x >= annX(i) - 0.5) fire(i);
+        }
+
+        strikeEl.setAttribute('d', strikeD(p.x));
+
+        if(prog < 1){
+          rafId = requestAnimationFrame(loop);
+        }else{
+          playhead.style.opacity = '0';
+        }
+      }
+
+      function start(){
+        callout.classList.remove('show');
+        reset();
+        rafId = requestAnimationFrame(loop);
+      }
+
+      document.getElementById('replayBtn').addEventListener('click', start);
+
+      const io = new IntersectionObserver((entries)=>{
+        if(entries[0].isIntersecting){
+          start();
+          io.disconnect();
+        }
+      },{threshold:.25});
+      io.observe(svg);
+    })();
+
+    (function memoryChart(){
+      const svg = document.getElementById('memSvg');
+      const bars = [{y:'Yr1',v:0},{y:'Yr2',v:0},{y:'Yr3',v:27},{y:'Yr4',v:0},{y:'Yr5',v:18}];
+      const H = 200, padL = 16, padB = 28, padT = 22, bw = 44, gap = 16, max = 27, sc = (H - padT - padB) / max;
+      let html = '';
+      bars.forEach((b,i)=>{
+        const x = padL + i * (bw + gap), h = Math.max(b.v * sc, 3), y = H - padB - h;
+        const col = b.v > 0 ? '#bb8c3c' : '#d9cdb6';
+        html += `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" fill="${col}"/>`;
+        html += `<text x="${x+bw/2}" y="${H-9}" fill="#6c7787" font-size="11.5" text-anchor="middle" font-family="Instrument Sans">${b.y}</text>`;
+        html += `<text x="${x+bw/2}" y="${y-6}" fill="#11263f" font-size="12.5" font-weight="600" text-anchor="middle" font-family="Fraunces">${b.v>0?('+'+b.v+'%'):'0%'}</text>`;
+      });
+      svg.innerHTML = html;
+      markReadyModule('memory');
+    })();
+
+    function populateAnniversaryOptions(){
+      const startInput = document.getElementById('exStart');
+      const select = document.getElementById('nextAnnivYear');
+      const startStr = startInput.value;
+      if(!startStr) return;
+
+      const start = new Date(startStr + 'T00:00:00');
+      const currentValue = select.value;
+      select.innerHTML = '';
+
+      for(let i=1;i<=TERM_YEARS;i++){
+        const d = addYearsSafe(start, i);
+        const opt = document.createElement('option');
+        opt.value = String(i);
+        opt.textContent = `${d.getFullYear()} (${longDate(d)})`;
+        select.appendChild(opt);
+      }
+
+      select.value = currentValue && [...select.options].some(o => o.value === currentValue) ? currentValue : '1';
+    }
+
+    function setStartDateBounds(){
+      const startInput = document.getElementById('exStart');
+      startInput.min = DATA_START_ROW.date;
+      startInput.max = DATA_END_ROW.date;
+
+      if(!startInput.value || startInput.value < DATA_START_ROW.date || startInput.value > DATA_END_ROW.date){
+        startInput.value = DATA_START_ROW.date;
+      }
+    }
+
+    function syncCurrentDateBounds(forceSuggested){
+      const startStr = document.getElementById('exStart').value;
+      const currentDateInput = document.getElementById('currentDate');
+      const nextYear = parseInt(document.getElementById('nextAnnivYear').value || '1', 10);
+      const profile = getProfile(startStr);
+      if(!profile) return;
+
+      const minObj = new Date(profile.actualStart.date + 'T00:00:00');
+      const termEndObj = addYearsSafe(profile.selectedStart, TERM_YEARS);
+      const maxObj = new Date(Math.min(termEndObj.getTime(), DATA_END_ROW.t));
+
+      currentDateInput.min = minObj.toISOString().slice(0,10);
+      currentDateInput.max = maxObj.toISOString().slice(0,10);
+
+      const existing = currentDateInput.value ? new Date(currentDateInput.value + 'T00:00:00') : null;
+      if(!forceSuggested && existing && existing >= minObj && existing <= maxObj){
+        return;
+      }
+
+      const windowStart = nextYear === 1 ? minObj : addYearsSafe(profile.selectedStart, nextYear - 1);
+      const windowEnd = addYearsSafe(profile.selectedStart, nextYear);
+      const low = new Date(Math.max(windowStart.getTime(), minObj.getTime()));
+      const high = new Date(Math.min(windowEnd.getTime(), maxObj.getTime()));
+      const suggested = high >= low
+        ? new Date(low.getTime() + (high.getTime() - low.getTime()) * 0.55)
+        : maxObj;
+
+      currentDateInput.value = suggested.toISOString().slice(0,10);
+    }
+
+    function syncNextAnniversaryFromCurrentDate(){
+      const startStr = document.getElementById('exStart').value;
+      const currentDateStr = document.getElementById('currentDate').value;
+      const select = document.getElementById('nextAnnivYear');
+      if(!startStr || !currentDateStr) return;
+
+      const profile = getProfile(startStr);
+      if(!profile) return;
+
+      const currentDate = new Date(currentDateStr + 'T00:00:00');
+      const completed = deriveCompletedAnniversaries(profile, currentDate);
+      const nextYear = completed >= TERM_YEARS ? TERM_YEARS : completed + 1;
+      select.value = String(nextYear);
+    }
+
+    function setFutureSliderAvailability(remaining){
+      for(let i=1;i<=TERM_YEARS;i++){
+        const slider = document.getElementById(`f${i}`);
+        const box = document.getElementById(`futureBox${i}`);
+        const enabled = i <= remaining;
+        slider.disabled = !enabled;
+        box.classList.toggle('disabled', !enabled);
+      }
+    }
+
+    function computeExperience(){
+      const startStr = document.getElementById('exStart').value;
+      const currentDateStr = document.getElementById('currentDate').value;
+      if(!startStr || !currentDateStr) return null;
+
+      const profile = getProfile(startStr);
+      if(!profile) return null;
+
+      const currentDate = new Date(currentDateStr + 'T00:00:00');
+      const currentValue = Math.max(0, parseCurrencyInputValue(document.getElementById('exValue').value) || 0);
+      const rate = Math.max(0, parseFloat(document.getElementById('exRate').value) || COUPON_RATE_DEFAULT);
+      const completed = deriveCompletedAnniversaries(profile, currentDate);
+      const nextYear = completed >= TERM_YEARS ? TERM_YEARS : completed + 1;
+
+      let strike = profile.startLevel;
+      let banked = 0;
+      let paidCouponsCount = 0;
+      let creditedTotalPct = 0;
+      const pastRows = [];
+
+      for(let i=0;i<completed;i++){
+        const ann = profile.anniversaries[i];
+        if(!ann.used) break;
+
+        const met = ann.level >= strike;
+        const bankedBefore = banked;
+
+        if(met){
+          paidCouponsCount += 1 + bankedBefore;
+          creditedTotalPct += rate * (1 + bankedBefore);
+          strike = ann.level;
+          banked = 0;
+        }else{
+          banked += 1;
+        }
+
+        pastRows.push({
+          year: ann.year,
+          targetDate: ann.targetDate,
+          target: ann.target,
+          used: ann.used,
+          level: ann.level,
+          met,
+          bankedBefore,
+          bankedAfter: banked,
+          strikeAfter: strike
+        });
+      }
+
+      const prevBoundary = completed === 0 ? profile.selectedStart : addYearsSafe(profile.selectedStart, completed);
+      const nextBoundary = addYearsSafe(profile.selectedStart, Math.min(completed + 1, TERM_YEARS));
+      const currentRow = lastOnOrBefore(currentDate) || firstOnOrAfter(currentDate);
+      const currentLevel = currentRow ? currentRow.level : profile.startLevel;
+      const currentIdx = +(((currentLevel / strike) - 1) * 100).toFixed(1);
+      const daysToNext = completed >= TERM_YEARS ? 0 : Math.max(0, Math.round((nextBoundary - currentDate) / 864e5));
+      const memoryPct = banked * rate;
+
+      const nextQualifyCouponsTotal = paidCouponsCount + 1 + banked;
+      const nextQualifyPct = rate * (1 + banked);
+      const nextQualifyTotalPct = rate * nextQualifyCouponsTotal;
+      const nextQualifyValue = currentValue * (1 + nextQualifyTotalPct / 100);
+
+      const remainingYears = TERM_YEARS - completed;
+      setFutureSliderAvailability(remainingYears);
+
+      let futureStrike = strike;
+      let futureBanked = banked;
+      let futurePaidCoupons = paidCouponsCount;
+      const futureRows = [];
+
+      for(let i=1;i<=TERM_YEARS;i++){
+        const slider = document.getElementById(`f${i}`);
+        const val = parseFloat(slider.value);
+        document.getElementById(`fVal${i}`).textContent = fmtPct(val);
+
+        if(i > remainingYears){
+          futureRows.push(null);
+          continue;
+        }
+
+        const levelAtAnniv = futureStrike * (1 + val / 100);
+        const met = val >= 0;
+        let paidPct = 0;
+        let couponsReleased = 0;
+
+        if(met){
+          couponsReleased = 1 + futureBanked;
+          futurePaidCoupons += couponsReleased;
+          paidPct = rate * couponsReleased;
+          futureStrike = levelAtAnniv;
+          futureBanked = 0;
+        }else{
+          futureBanked += 1;
+        }
+
+        futureRows.push({
+          offset: i,
+          actualYear: completed + i,
+          level: levelAtAnniv,
+          met,
+          paidPct,
+          couponsReleased
+        });
+      }
+
+      const projectedTotalPct = rate * futurePaidCoupons;
+      const projectedValue = currentValue * (1 + projectedTotalPct / 100);
+
+      return {
+        profile,
+        currentDate,
+        currentValue,
+        rate,
+        nextYear,
+        completed,
+        strike,
+        currentLevel,
+        currentIdx,
+        paidCouponsCount,
+        creditedTotalPct,
+        banked,
+        memoryPct,
+        nextQualifyPct,
+        nextQualifyValue,
+        nextQualifyTotalPct,
+        nextQualifyCouponsTotal,
+        daysToNext,
+        prevBoundary,
+        nextBoundary,
+        pastRows,
+        futureRows,
+        projectedValue,
+        projectedTotalPct,
+        remainingYears,
+        futurePaidCoupons
+      };
+    }
+
+    function drawExperienceChart(state){
+      const svg = document.getElementById('expChart');
+      const W = 980, H = 430, left = 72, right = 28, top = 24, bottom = 60;
+      const xYear = year => left + ((W - left - right) * year / TERM_YEARS);
+
+      let currentX = xYear(Math.min(state.completed, TERM_YEARS));
+      if(state.completed < TERM_YEARS){
+        const span = Math.max(1, state.nextBoundary - state.prevBoundary);
+        const currentFraction = Math.max(0.02, Math.min(0.98, (state.currentDate - state.prevBoundary) / span));
+        currentX = xYear(state.completed) + (xYear(state.nextYear) - xYear(state.completed)) * currentFraction;
+      }
+
+      const allLevels = [state.profile.startLevel, state.currentLevel, state.strike];
+      state.pastRows.forEach(r => allLevels.push(r.level));
+      state.futureRows.forEach(r => { if(r) allLevels.push(r.level); });
+
+      const maxL = Math.max(...allLevels) * 1.08;
+      const minL = Math.min(...allLevels) * 0.94;
+      const y = v => top + ((maxL - v) / (maxL - minL)) * (H - top - bottom);
+
+      let html = '';
+      for(let i=0;i<6;i++){
+        const gy = top + ((H - top - bottom) * i / 5);
+        const labelVal = maxL - ((maxL - minL) * i / 5);
+        html += `<line x1="${left}" y1="${gy}" x2="${W-right}" y2="${gy}" stroke="rgba(17,38,63,.08)" stroke-width="1"/>`;
+        html += `<text x="${left-10}" y="${gy+4}" text-anchor="end" fill="#6c7787" font-size="11" font-family="Instrument Sans">${labelVal.toFixed(1)}</text>`;
+      }
+
+      for(let i=1;i<=TERM_YEARS;i++){
+        const x = xYear(i);
+        html += `<line x1="${x}" y1="${top}" x2="${x}" y2="${H-bottom}" stroke="rgba(17,38,63,.05)" stroke-width="1"/>`;
+        html += `<text x="${x}" y="${H-24}" text-anchor="middle" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Yr ${i}</text>`;
+      }
+      html += `<text x="${left}" y="${H-24}" text-anchor="start" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Start</text>`;
+
+      const histPts = [{x:left, level:state.profile.startLevel}];
+      state.pastRows.forEach(r => histPts.push({x:xYear(r.year), level:r.level}));
+      histPts.push({x:currentX, level:state.currentLevel});
+
+      const futurePts = [{x:currentX, level:state.currentLevel}];
+      state.futureRows.forEach(r => {
+        if(r) futurePts.push({x:xYear(r.actualYear), level:r.level});
+      });
+
+      const linePath = pts => 'M ' + pts.map(p => `${p.x} ${y(p.level)}`).join(' L ');
+      html += `<path d="${linePath(histPts)}" fill="none" stroke="#4d7fb7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+      if(futurePts.length > 1){
+        html += `<path d="${linePath(futurePts)}" fill="none" stroke="#4d7fb7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5" opacity=".8"/>`;
+      }
+
+      const strikePts = [{x:left, level:state.profile.startLevel}];
+      let runningStrike = state.profile.startLevel;
+
+      state.pastRows.forEach(r => {
+        const x = xYear(r.year);
+        strikePts.push({x, level:runningStrike});
+        if(r.met){
+          runningStrike = r.level;
+          strikePts.push({x, level:runningStrike});
+        }
+      });
+
+      strikePts.push({x:currentX, level:state.strike});
+
+      let futureStrike = state.strike;
+      state.futureRows.forEach(r => {
+        if(r){
+          const x = xYear(r.actualYear);
+          strikePts.push({x, level:futureStrike});
+          if(r.met){
+            futureStrike = r.level;
+            strikePts.push({x, level:futureStrike});
+          }
+        }
+      });
+
+      html += `<path d="M ${strikePts.map(p => `${p.x} ${y(p.level)}`).join(' L ')}" fill="none" stroke="#d8b364" stroke-width="2" stroke-dasharray="7 5"/>`;
+      html += `<text x="${left}" y="${top+12}" fill="#bb8c3c" font-size="12" font-family="Instrument Sans">Strike price</text>`;
+
+      state.pastRows.forEach(r => {
+        const fill = r.met ? '#2f7d5b' : '#b15a36';
+        html += `<circle cx="${xYear(r.year)}" cy="${y(r.level)}" r="7" fill="${fill}" stroke="#11263f" stroke-width="2"/>`;
+      });
+
+      html += `<circle cx="${currentX}" cy="${y(state.currentLevel)}" r="8" fill="#fff" stroke="#4d7fb7" stroke-width="3"/>`;
+
+      state.futureRows.forEach(r => {
+        if(r){
+          const fill = r.met ? '#2f7d5b' : '#b15a36';
+          html += `<circle cx="${xYear(r.actualYear)}" cy="${y(r.level)}" r="7" fill="${fill}" stroke="#11263f" stroke-width="2"/>`;
+        }
+      });
+
+      html += `<rect x="${left}" y="${H-16}" width="12" height="12" rx="3" fill="#4d7fb7"/><text x="${left+18}" y="${H-6}" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Index level</text>`;
+      html += `<rect x="${left+126}" y="${H-16}" width="12" height="12" rx="3" fill="#2f7d5b"/><text x="${left+144}" y="${H-6}" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Qualifying anniversary</text>`;
+      html += `<rect x="${left+320}" y="${H-16}" width="12" height="12" rx="3" fill="#b15a36"/><text x="${left+338}" y="${H-6}" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Missed / stored coupon</text>`;
+      html += `<rect x="${left+520}" y="${H-16}" width="12" height="12" rx="3" fill="transparent" stroke="#d8b364" stroke-width="1.5"/><text x="${left+540}" y="${H-6}" fill="#6c7787" font-size="11.5" font-family="Instrument Sans">Strike price</text>`;
+
+      svg.innerHTML = html;
+    }
+
+    function renderExperience(){
+      const state = computeExperience();
+      if(!state){
+        document.getElementById('summaryList').innerHTML = `<div class="summary-row"><div class="summary-dot miss">!</div><div class="summary-main"><div class="t">Data unavailable for the selected range</div><div class="s">Choose a contract start date within the embedded index history.</div></div></div>`;
+        markReadyModule('experience');
+        return;
+      }
+
+      document.getElementById('kPaid').textContent = state.paidCouponsCount.toString();
+      document.getElementById('kPaidDesc').textContent = 'Total coupon amount credited so far: +' + state.creditedTotalPct.toFixed(1) + '%';
+      document.getElementById('kMemory').textContent = state.banked.toString();
+      document.getElementById('kMemoryDesc').textContent = state.banked
+        ? ('+' + state.memoryPct.toFixed(1) + '% pending across ' + state.banked + ' waiting coupon' + (state.banked > 1 ? 's' : ''))
+        : 'No coupons currently waiting in memory';
+      document.getElementById('kNext').textContent = money(state.nextQualifyValue);
+      document.getElementById('kNextDesc').textContent = 'All-in value if next anniversary qualifies: +' + state.nextQualifyTotalPct.toFixed(1) + '% total';
+
+      drawExperienceChart(state);
+
+      const qualifiesNow = state.currentIdx >= 0;
+      document.getElementById('mStatus').textContent = qualifiesNow ? 'Above strike price' : 'Below strike price';
+      document.getElementById('mStrike').textContent = state.strike.toFixed(3);
+      document.getElementById('mDays').textContent = state.daysToNext.toString();
+      document.getElementById('mProjected').textContent = money(state.projectedValue);
+      document.getElementById('mHypoCredits').textContent = state.futurePaidCoupons.toString();
+
+      let rows = '';
+      rows += `<div class="summary-row">
+        <div class="summary-dot ${qualifiesNow ? 'ok' : 'miss'}">${qualifiesNow ? '&#10003;' : '&#9675;'}</div>
+        <div class="summary-main">
+          <div class="t">${fmtPct(state.currentIdx)} vs. current strike price</div>
+          <div class="s">As of ${longDate(state.currentDate)}, the current level is compared with the live strike price carried forward from the last qualifying anniversary.</div>
+        </div>
+      </div>`;
+
+      rows += `<div class="summary-row">
+        <div class="summary-dot ${state.banked ? 'wait' : 'ok'}">${state.banked ? state.banked : '&#10003;'}</div>
+        <div class="summary-main">
+          <div class="t">${state.banked ? state.banked + ' coupon' + (state.banked>1?'s':'') + ' in storage' : 'No coupons currently in storage'}</div>
+          <div class="s">${state.banked ? ('The next qualifying anniversary would release ' + (1 + state.banked) + ' total coupons: 1 current coupon plus ' + state.banked + ' stored coupon' + (state.banked>1?'s':'') + '.') : 'The next qualifying anniversary would release 1 current coupon and reset the strike price upward.'}</div>
+        </div>
+      </div>`;
+
+      rows += `<div class="summary-row">
+        <div class="summary-dot ok">${state.paidCouponsCount}</div>
+        <div class="summary-main">
+          <div class="t">${state.paidCouponsCount} paid coupon${state.paidCouponsCount!==1?'s':''} to date</div>
+          <div class="s">This count increases by every coupon actually released. If 1 current coupon and 1 stored memory coupon are paid together, the count increases by 2.</div>
+        </div>
+      </div>`;
+
+      rows += `<div class="summary-row">
+        <div class="summary-dot wait">%</div>
+        <div class="summary-main">
+          <div class="t">Projected total coupon amount: +${state.projectedTotalPct.toFixed(1)}%</div>
+          <div class="s">This includes coupons already paid plus coupons expected to be released later. Projection uses simple interest, so 5 coupons at 9% equals +45%, not compounding.</div>
+        </div>
+      </div>`;
+
+      document.getElementById('summaryList').innerHTML = rows;
+      markReadyModule('experience');
+    }
+
+    function scrollAncestorTo(ancestor, targetTop){
+      try { ancestor.scrollTo({ top: targetTop, behavior: 'smooth' }); }
+      catch (e) { ancestor.scrollTop = targetTop; }
+    }
+
+    function getScrollableAncestors(el){
+      const ancestors = [];
+      let parent = el.parentElement;
+      while(parent){
+        const style = getComputedStyle(parent);
+        const overflowY = style.overflowY;
+        const canScroll = (overflowY === 'auto' || overflowY === 'scroll' || overflowY === 'overlay') && parent.scrollHeight > parent.clientHeight;
+        if(canScroll) ancestors.push(parent);
+        parent = parent.parentElement;
+      }
+      ancestors.push(document.scrollingElement || document.documentElement);
+      return ancestors;
+    }
+
+    function scrollToSectionRobust(targetSelector){
+      const target = document.querySelector(targetSelector);
+      if(!target) return;
+      const bar = document.querySelector('.bar');
+      const headerOffset = (bar ? bar.offsetHeight : 0) + 16;
+      try { target.scrollIntoView({ behavior:'smooth', block:'start' }); } catch (e) {}
+      const ancestors = getScrollableAncestors(target);
+      ancestors.forEach(scroller => {
+        if (scroller === document.documentElement || scroller === document.body || scroller === document.scrollingElement) {
+          const top = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+          window.scrollTo({ top, behavior:'smooth' });
+        } else {
+          const parentRect = scroller.getBoundingClientRect();
+          const targetRect = target.getBoundingClientRect();
+          const top = scroller.scrollTop + (targetRect.top - parentRect.top) - headerOffset;
+          scrollAncestorTo(scroller, top);
+        }
+      });
+    }
+
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          revealObserver.unobserve(e.target);
+        }
+      });
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+    document.getElementById('exStart').addEventListener('change', () => {
+      populateAnniversaryOptions();
+      syncCurrentDateBounds(true);
+      syncNextAnniversaryFromCurrentDate();
+      renderExperience();
+    });
+
+    document.getElementById('nextAnnivYear').addEventListener('change', () => {
+      syncCurrentDateBounds(true);
+      syncNextAnniversaryFromCurrentDate();
+      renderExperience();
+    });
+
+    document.getElementById('currentDate').addEventListener('change', () => {
+      syncNextAnniversaryFromCurrentDate();
+      renderExperience();
+    });
+
+    const exValueField = document.getElementById('exValue');
+    exValueField.addEventListener('focus', unformatCurrencyInputField);
+    exValueField.addEventListener('blur', () => {
+      formatCurrencyInputField();
+      renderExperience();
+    });
+    exValueField.addEventListener('input', renderExperience);
+
+    document.getElementById('exRate').addEventListener('input', renderExperience);
+    document.querySelectorAll('.future-slider').forEach(el => el.addEventListener('input', renderExperience));
+
+    document.querySelectorAll('.bar nav a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        scrollToSectionRobust(this.getAttribute('href'));
+      });
+    });
+
+    setStartDateBounds();
+    populateAnniversaryOptions();
+    syncCurrentDateBounds(true);
+    syncNextAnniversaryFromCurrentDate();
+    formatCurrencyInputField();
+    renderExperience();
+  </script>
+</body>
+</html>
